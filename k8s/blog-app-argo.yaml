@@ -15,9 +15,28 @@ spec:
     spec:
       containers:
       - name: blog
-        image: jilopezv1/blog-app-posts:latest # <- This comes from Docker Hub/ need to change tags
+        image: alejandromons/blog-app-posts:latest
         ports:
         - containerPort: 5000
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "250m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 5000
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 5000
+          initialDelaySeconds: 15
+          periodSeconds: 20
 
 ---
 
